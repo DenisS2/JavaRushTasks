@@ -1,0 +1,64 @@
+package com.javarush.task.task22.task2209;
+
+import java.io.*;
+import java.util.*;
+
+/*
+Составить цепочку слов
+*/
+public class Solution {
+    public static void main(String[] args)  {
+        Scanner sc = new Scanner(System.in);
+        String fileName = "d://3.txt";//sc.nextLine(); //"d://3.txt";//
+        sc.close();
+        String s = "";
+        try {
+            Scanner in = new Scanner(new File(fileName));
+            while (in.hasNext())
+                s +=in.nextLine()+' ';
+            in.close();
+        }
+        catch (FileNotFoundException e){
+            System.out.println("Файл не найден");
+        }
+
+        String[] sa=s.split(" ");
+        //...
+        StringBuilder result = getLine(sa);
+        System.out.println(result.toString());
+    }
+
+    public static StringBuilder getLine(String... words) {
+
+        StringBuilder builder = new StringBuilder();
+        if (words==null) return builder;
+        ArrayList<String> list = new ArrayList<String>();
+        ArrayList<StringBuilder> builders = new ArrayList<>();
+
+        for (int i = 0; i < words.length; i++) {
+            if (!words[i].equals("")&& !words[i].equals("") )
+            list.add(words[i]);
+        }
+        if (list.size()==0) return builder;
+
+        Collections.sort(list);
+        builder.append(list.get(0)+" ");
+        list.remove(0);
+        int size=list.size();
+        for (int j=0; j<size; j++){
+            for (int i = 0; i < list.size() ; i++) {
+            int p = builder.charAt(builder.length() - 2);//words[i].charAt(words[i].length()-1);
+            int v = list.get(i).charAt(0);
+            if (p==v|| p+32==v || p==v+32) {
+
+                builder.append(list.get(i) + " ");
+                list.remove(i);
+            }
+            }
+        }
+        builder.deleteCharAt(builder.length()-1);
+
+
+        return builder;
+    }
+}
